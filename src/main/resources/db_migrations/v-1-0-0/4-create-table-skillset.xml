@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+        http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
+
+    <changeSet id="4" author="egor">
+        <createTable tableName="Skill_set">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints uniqueConstraintName="skill_set_id" primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="skill_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="developer_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="Skill_set" baseColumnNames="developer_id"
+                                 constraintName="skill_set_developer_id_developer_id"
+                                 referencedTableName="Developer" referencedColumnNames="id" onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint baseTableName="Skill_set" baseColumnNames="skill_id"
+                                 constraintName="skill_set_skill_id_skill_id"
+                                 referencedTableName="Skill" referencedColumnNames="id"/>
+    </changeSet>
+
+</databaseChangeLog>
