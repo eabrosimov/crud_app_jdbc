@@ -15,11 +15,11 @@
                 <constraints uniqueConstraintName="developer_pk" primaryKey="true" nullable="false"/>
             </column>
 
-            <column name="first_name" type="varchar(50)">
+            <column name="first_name" type="varchar(25)">
                 <constraints nullable="false"/>
             </column>
 
-            <column name="last_name" type="varchar(50)">
+            <column name="last_name" type="varchar(25)">
                 <constraints nullable="false"/>
             </column>
 

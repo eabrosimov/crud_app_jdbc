@@ -7,7 +7,15 @@ import org.example.repository.jdbc.JdbcDeveloperRepositoryImpl;
 import java.util.List;
 
 public class DeveloperService {
-    private final DeveloperRepository developerRepository = new JdbcDeveloperRepositoryImpl();
+    private final DeveloperRepository developerRepository;
+
+    public DeveloperService(){
+        developerRepository = new JdbcDeveloperRepositoryImpl();
+    }
+
+    public DeveloperService(DeveloperRepository developerRepository){
+        this.developerRepository = developerRepository;
+    }
 
     public Developer save(Developer developer){
         return developerRepository.save(developer);

@@ -26,7 +26,7 @@
 
         <addForeignKeyConstraint baseTableName="Skill_set" baseColumnNames="developer_id"
                                  constraintName="skill_set_developer_id_developer_id"
-                                 referencedTableName="Developer" referencedColumnNames="id" onDelete="CASCADE"/>
+                                 referencedTableName="Developer" referencedColumnNames="id"/>
 
         <addForeignKeyConstraint baseTableName="Skill_set" baseColumnNames="skill_id"
                                  constraintName="skill_set_skill_id_skill_id"

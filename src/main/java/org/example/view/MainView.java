@@ -1,5 +1,7 @@
 package org.example.view;
 
+import org.example.utility.JdbcUtils;
+
 import java.util.Scanner;
 
 public class MainView {
@@ -31,6 +33,8 @@ public class MainView {
                     break;
                 case "-exit":
                     System.out.println("Завершение программы");
+                    JdbcUtils.closeStatement();
+                    JdbcUtils.closeConnection();
                     return;
                 default:
                     System.out.println("Вы ввели неверную команду\n" +

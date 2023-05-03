@@ -16,7 +16,7 @@
                 <constraints uniqueConstraintName="skill_pk" primaryKey="true" nullable="false"/>
             </column>
 
-            <column name="name" type="varchar(50)">
+            <column name="name" type="varchar(25)">
                 <constraints unique="true" nullable="false"/>
             </column>
         </createTable>

@@ -73,7 +73,7 @@ public class DeveloperView {
 
         Developer developer = developerController.save(firstName, lastName);
         if(developer == null)
-            System.out.println("Неверный формат\n" +
+            System.out.println("Не удалось создать разработчика\n" +
                     "Убедитесь, что строки не пустые и не превышают 25 символов");
         else
             System.out.printf("Создан новый разработчик: %s\n", developer);
@@ -113,7 +113,7 @@ public class DeveloperView {
 
                     developer.setFirstName(firstName);
                     if(developerController.update(developer) == null)
-                        System.out.println("Неверный формат\n" +
+                        System.out.println("Не удалось изменить имя\n" +
                                 "Убедитесь, что строка не пустая и не превышает 25 символов");
                     else
                         System.out.printf("Имя разработчика изменено: %s\n", developer);
@@ -125,7 +125,7 @@ public class DeveloperView {
 
                     developer.setLastName(lastName);
                     if(developerController.update(developer) == null)
-                        System.out.println("Неверный формат\n" +
+                        System.out.println("Не удалось изменить фамилию\n" +
                                 "Убедитесь, что строка не пустая и не превышает 25 символов");
                     else
                         System.out.printf("Фамилия разработчика изменена: %s\n", developer);
@@ -135,7 +135,7 @@ public class DeveloperView {
                     int skillId = IdValidationHandler.validateId();
                     Skill skill = skillController.getById(skillId);
                     if(skill == null)
-                        System.out.println("Скилл с таким id не существует");
+                        System.out.println("Скил с таким id не существует");
                     else{
                         System.out.println("Выберете действие:\n" +
                                 "добавить скилл -a\n" +

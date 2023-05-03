@@ -83,4 +83,5 @@ public class Developer {
                 ", specialty=" + specialty +
                 '}';
     }
+
 }

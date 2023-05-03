@@ -2,8 +2,7 @@ package org.example.repository.jdbc;
 
 import org.example.model.Skill;
 import org.example.repository.SkillRepository;
-import org.example.utility.MyConnection;
-import org.example.utility.ResourceCloseHandler;
+import org.example.utility.JdbcUtils;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,28 +11,19 @@ import java.util.List;
 public class JdbcSkillRepositoryImpl implements SkillRepository {
     @Override
     public Skill save(Skill skill) {
-        Connection connection = null;
-        PreparedStatement statement = null;
+        String sql = "insert into skill(name) values(?)";
 
         try {
-            connection = MyConnection.getConnection();
-
-            String sql = "insert into skill(name) values(?)";
-            statement = connection.prepareStatement(sql);
+            PreparedStatement statement = JdbcUtils.getPreparedStatementWithKeys(sql);
             statement.setString(1, skill.getName());
             statement.executeUpdate();
-
-            sql = "select * from skill";
-            statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            ResultSet resultSet = statement.executeQuery(sql);
-            resultSet.last();
-            skill.setId(resultSet.getInt("id"));
+            ResultSet resultSet = statement.getGeneratedKeys();
+            resultSet.next();
+            skill.setId(resultSet.getInt(1));
         } catch (SQLIntegrityConstraintViolationException e) {
             return null;
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            ResourceCloseHandler.closeResources(connection, statement);
         }
 
         return skill;
@@ -41,13 +31,10 @@ public class JdbcSkillRepositoryImpl implements SkillRepository {
 
     @Override
     public Skill update(Skill skill) {
-        Connection connection = null;
-        PreparedStatement statement = null;
+        String sql = "update skill set name=? where id=?";
 
         try {
-            connection = MyConnection.getConnection();
-            String sql = "update skill set name=? where id=?";
-            statement = connection.prepareStatement(sql);
+            PreparedStatement statement = JdbcUtils.getPreparedStatement(sql);
             statement.setString(1, skill.getName());
             statement.setInt(2, skill.getId());
             statement.executeUpdate();
@@ -55,8 +42,6 @@ public class JdbcSkillRepositoryImpl implements SkillRepository {
             return null;
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            ResourceCloseHandler.closeResources(connection, statement);
         }
 
         return skill;
@@ -64,14 +49,11 @@ public class JdbcSkillRepositoryImpl implements SkillRepository {
 
     @Override
     public List<Skill> getAll() {
-        Connection connection = null;
-        PreparedStatement statement = null;
         List<Skill> allSkills = new ArrayList<>();
+        String sql = "select * from skill order by id";
 
         try {
-            connection = MyConnection.getConnection();
-            String sql = "select * from skill order by id";
-            statement = connection.prepareStatement(sql);
+            PreparedStatement statement = JdbcUtils.getPreparedStatement(sql);
             ResultSet resultSet = statement.executeQuery();
             while(resultSet.next()){
                 Skill skill = new Skill();
@@ -81,8 +63,6 @@ public class JdbcSkillRepositoryImpl implements SkillRepository {
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            ResourceCloseHandler.closeResources(connection, statement);
         }
 
         return allSkills;
@@ -90,14 +70,11 @@ public class JdbcSkillRepositoryImpl implements SkillRepository {
 
     @Override
     public Skill getById(Integer integer) {
-        Connection connection = null;
-        PreparedStatement statement = null;
         Skill skill = null;
+        String sql = "select * from skill where id=?";
 
         try {
-            connection = MyConnection.getConnection();
-            String sql = "select * from skill where id=?";
-            statement = connection.prepareStatement(sql);
+            PreparedStatement statement = JdbcUtils.getPreparedStatement(sql);
             statement.setInt(1, integer);
             ResultSet resultSet = statement.executeQuery();
             if(resultSet.next()) {
@@ -107,8 +84,6 @@ public class JdbcSkillRepositoryImpl implements SkillRepository {
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            ResourceCloseHandler.closeResources(connection, statement);
         }
 
         return skill;
@@ -116,13 +91,10 @@ public class JdbcSkillRepositoryImpl implements SkillRepository {
 
     @Override
     public boolean deleteById(Integer integer) {
-        Connection connection = null;
-        PreparedStatement statement = null;
+        String sql = "delete from skill where id=?";
 
         try {
-            connection = MyConnection.getConnection();
-            String sql = "delete from skill where id=?";
-            statement = connection.prepareStatement(sql);
+            PreparedStatement statement = JdbcUtils.getPreparedStatement(sql);
             statement.setInt(1, integer);
             int status = statement.executeUpdate();
             if(status > 0) {
@@ -132,8 +104,6 @@ public class JdbcSkillRepositoryImpl implements SkillRepository {
             return false;
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            ResourceCloseHandler.closeResources(connection, statement);
         }
 
         return false;

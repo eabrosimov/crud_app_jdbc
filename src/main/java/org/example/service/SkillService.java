@@ -7,7 +7,15 @@ import org.example.repository.jdbc.JdbcSkillRepositoryImpl;
 import java.util.List;
 
 public class SkillService {
-    private final SkillRepository skillRepository = new JdbcSkillRepositoryImpl();
+    private final SkillRepository skillRepository;
+
+    public SkillService(){
+        skillRepository = new JdbcSkillRepositoryImpl();
+    }
+
+    public SkillService(SkillRepository skillRepository){
+        this.skillRepository = skillRepository;
+    }
 
     public Skill save(Skill skill) {
         return skillRepository.save(skill);
